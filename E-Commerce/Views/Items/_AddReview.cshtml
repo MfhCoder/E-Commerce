@@ -1,0 +1,97 @@
+﻿@model E_Commerce.Models.Items
+<div class="aa-product-details-bottom">
+    <ul class="nav nav-tabs" id="myTab2">
+        <li><a href="#description" data-toggle="tab">Description</a></li>
+        <li><a href="#review" data-toggle="tab">Reviews</a></li>
+    </ul>
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div class="tab-pane fade in active" id="description">
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+            <ul>
+                <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod, culpa!</li>
+                <li>Lorem ipsum dolor sit amet.</li>
+                <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</li>
+                <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor qui eius esse!</li>
+                <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam, modi!</li>
+            </ul>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum, iusto earum voluptates autem esse molestiae ipsam, atque quam amet similique ducimus aliquid voluptate perferendis, distinctio!</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis ea, voluptas! Aliquam facere quas cumque rerum dolore impedit, dicta ducimus repellat dignissimos, fugiat, minima quaerat necessitatibus? Optio adipisci ab, obcaecati, porro unde accusantium facilis repudiandae.</p>
+        </div>
+        <div class="tab-pane fade " id="review">
+            <div class="aa-product-review-area">
+                <h4><b>@ViewBag.TotalReviews</b> Reviews for @Model.Title</h4>
+                <ul class="aa-review-nav list-unstyled">
+                    @if (ViewBag.Reviews != null)
+                    {
+                        foreach (var item in ViewBag.Reviews)
+                        {
+                            <li>
+                                <div class="media">
+                                    <div class="media-left">
+                                        <a href="#">
+                                           @{
+                                               var base64 = Convert.ToBase64String(item.UserPhoto);
+                                               var imgsrc = string.Format("data:image/jpg;base64,{0}", base64); 
+                                            }  
+                                            <img src='@imgsrc' class="media-object"/>
+                                        </a>
+                                    </div>
+                                    <div class="media-body">
+                                        <h4 class="media-heading"><strong>@item.Name</strong> - <span>@item.DateTime</span></h4>
+                                        <div class="aa-product-rating">
+                                            @for (int i = 1; i <= 5; i++)
+                                            {
+                                                if (@item.Rate >= i)
+                                                {
+                                                    <span class="fa fa-star"></span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="fa fa-star-o"></span>
+                                                }
+                                            }
+
+                                        </div>
+                                        <p>@item.Review1</p>
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                    }
+
+                </ul>
+                <h4>Add a review</h4>
+                 @if (Request.IsAuthenticated)
+                   {
+                  using (Html.BeginForm("AddReview", "Items", new { ItemID = @Model.Id }, FormMethod.Post, new { @class = "aa-review-form" }))
+                    {
+                        <div class="aa-your-rating">
+                            <p>Your Rating</p>
+                            @*<a id="one" href=""><span class="fa fa-star-o"></span></a>
+                                <a id="two" href="" ><span class="fa fa-star-o"></span></a>
+                                <a id="three" href="#"><span class="fa fa-star-o"></span></a>
+                                <a id="four" href="#"><span class="fa fa-star-o"></span></a>
+                                <a id="five" href="#"><span class="fa fa-star-o"></span></a>*@
+                            <input type="number" name="rate" min="1" max="5" maxlength="1" value="1" />
+
+                        </div>
+                                        <!-- review form -->
+
+                                        <div class="form-group">
+                                            <label for="message">Your Review</label>
+                                            <textarea class="form-control" rows="3" name="message"></textarea>
+                                        </div>
+                                           
+                                            <button type="submit" class="btn btn-primary aa-review-submit">Submit</button>
+                    }
+                }
+                else
+                {
+                    <label>Please login to Add your important Review about product.</label>
+                }
+               
+            </div>
+        </div>
+    </div>
+</div>

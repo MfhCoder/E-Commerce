@@ -1,0 +1,47 @@
+﻿@model E_Commerce.Models.IndexViewModel
+@using Microsoft.AspNet.Identity
+@{
+    ViewBag.Title = "Manage";
+}
+
+
+<p class="text-success">@ViewBag.StatusMessage</p>
+
+
+    <div class="jumbotron">
+      
+
+            <img src="@Url.Action("UserPhotos", "Home" )" style="width:160px;height:160px; background: #FFFFFF;
+    margin: auto;
+    -moz-border-radius: 60px;
+    border-radius: 100px;
+    padding: 6px;
+    box-shadow: 0px 0px 20px #888;
+    margin-left :20%" />
+
+
+        <div class="information block">
+            <div class="container">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">My Information</div>
+                    <div class="panel-body">
+                        <ul class="list-unstyled">
+                            <li>
+                                <i class="fa fa-unlock-alt fa-fw"></i>
+                                <span>Login Name</span> :@User.Identity.GetUserName()
+                            </li>
+                            <li>
+                                <i class="fa fa-envelope-o fa-fw"></i>
+                                <span>Email</span>@*:@Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })*@
+
+
+                            </li>
+                            
+                        </ul>
+                        <a href="~/Account/EditProfile" class="btn btn-success">Edit Information</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+</div>

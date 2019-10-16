@@ -1,0 +1,36 @@
+﻿@model IEnumerable<E_Commerce.Models.Users_in_Role_ViewModel>
+
+@{
+    ViewBag.Title = "Users With Roles";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+    <table id="datatable" class="table table-striped table-hover">
+        <thead>
+            <tr class="main-table-fd">
+                <th>Username</th>
+                <th>Email</th>
+                <th>Roles</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.Username</td>
+                    <td>@user.Email</td>
+                    <td>@user.Role</td>
+                    <td class="form-actions">
+                        <span style="color: #ff0000;">
+                            <a href="@Url.Action("DeleteUser", "ManageUsers", new { userId = user.UserId} )" onclick="return confirm('Are you sure you want to delete this User?');" class="btn btn-danger btn-sm">
+                                <i class="fa fa-trash">&nbsp;</i>Delete
+                            </a>
+                        </span>
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+

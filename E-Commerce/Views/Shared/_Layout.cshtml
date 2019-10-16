@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/tabletools/2.2.4/css/dataTables.tableTools.css" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    <script src="~/Scripts/jquery-1.11.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery.dataTables.min.js"></script>
+    <script src="//cdn.datatables.net/tabletools/2.2.4/js/dataTables.tableTools.min.js"></script>
+    <script src="~/Scripts/dataTables.bootstrap.min.js"></script>
+    <script src="~/Scripts/imagezoom.js"></script>
+
+
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="~/Home/index" class="navbar-brand" >
+                    <span>Shop</span>
+                    <i class="fa fa-shopping-cart fa-lg"></i>
+                </a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>
+                        @using (Html.BeginForm("Search", "Home", FormMethod.Post))
+                        {
+                            <input type="text" name="searchName" id="searchName"
+                                   placeholder="&#xF002; Search" style="font-family:Arial, FontAwesome" />
+                        }
+
+
+                    </li>
+
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li><a href="@Url.Action("GetProductsByCategory","Home", new { categoryName = "Men" })">Men Products</a></li>
+                    <li><a href="@Url.Action("GetProductsByCategory","Home", new { categoryName = "Kids" })">Kids Products</a></li>
+                    <li><a href="@Url.Action("GetProductsByCategory","Home", new { categoryName = "Womens" })">Womens Products</a></li>
+                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+
+                    @*<div class="aa-cartbox-summary">
+                        <ul>
+
+                                @if (@ViewBag.cartBox != null)
+                {
+
+                    foreach (var item in @ViewBag.cartBox)
+                    {
+                                        <li>
+                                            <a class="aa-cartbox-img" href="#"><img src="~/images/@item.Item.ItemImage" class="thumbnail" style="width:100px; height:100px"></a>
+                                            <div class="aa-cartbox-info">
+                                                <h4><a href="#">@item.Item.Title</a></h4>
+                                                <p>@item.Item.Price</p>
+                                            </div>
+                                            <a class="aa-remove-product" href="@Url.Action("Remove", "WishLists", new { id=item.Id})"><span class="fa fa-times"></span></a>
+                                        </li>
+                                    }
+                                }
+                                <li>
+                                    <span class="aa-cartbox-total-title">
+                                        Total
+                                    </span>
+                                    <span class="aa-cartbox-total-price">
+                                        @ViewBag.Total
+                                    </span>
+                                </li>
+
+                            
+                        </ul>
+                        <a class="aa-cartbox-checkout aa-primary-btn" href="@Url.Action("Index","CheckOut")">Checkout</a>
+                    </div>*@
+
+                </ul>
+                @Html.Partial("_LoginPartial")
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> <span class="glyphicon glyphicon-shopping-cart"></span> @if (@ViewBag.WlItemsNo > 0)
+                        { <text>@ViewBag.WlItemsNo</text> } -Items<span class="caret"></span></a>
+                        <ul class="dropdown-menu dropdown-cart" role="menu">
+
+                            @if (@ViewBag.cartBox != null)
+                            {
+
+                                foreach (var item in @ViewBag.cartBox)
+                                {
+
+                                    <li>
+                                        <span class="item">
+                                            <span class="item-left">
+                                                <img src="~/images/@item.Item.ItemImage" class="thumbnail" style="width:60px; height:60px">
+                                                <span class="item-info">
+                                                    <span>@item.Item.Title</span>
+                                                    <span>@item.Item.Price$</span>
+                                                </span>
+                                            </span>
+                                            <span class="item-right">
+                                                <a class="btn btn-xs btn-danger pull-right" href="@Url.Action("Remove", "WishLists", new { id=item.Id})"><span class="fa fa-times"></span></a>
+                                            </span>
+                                        </span>
+                                    </li>
+                                }
+                            }
+                            <li class="text-center">Tolal: @ViewBag.Total</li>
+                                <li class="divider"></li>
+                                <li><a class="text-center" href="@Url.Action("Index", "WishLists")">View Cart</a></li>
+                            </ul>
+                        </li>
+                        </ul>
+            </div>
+        </div>
+    </div>
+    <div style="min-height:480px;"> @RenderBody()</div>
+        <hr />
+        <div class="container">
+            <footer>
+                <p>&copy; 2018 - MFHcoder</p>
+            </footer>
+        </div>
+
+        @RenderSection("scripts", required: false)
+
+</body>
+</html>

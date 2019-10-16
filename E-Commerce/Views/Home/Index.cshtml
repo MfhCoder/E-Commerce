@@ -1,0 +1,93 @@
+﻿@model IEnumerable<E_Commerce.Models.Category>
+@using E_Commerce.Models
+@{
+    ViewBag.Title = "Home Page";
+}
+ <!-- Start Slider -->
+<div id="myslide" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+        <li data-target="#myslide" data-slide-to="0" class="active"></li>
+        <li data-target="#myslide" data-slide-to="1"></li>
+        <li data-target="#myslide" data-slide-to="2"></li>
+        <li data-target="#myslide" data-slide-to="3"></li>
+    </ol>
+
+    <div id="Home" class="carousel-inner">
+
+        <div class="item active">
+            <img src="~/images/banner4.jpg" alt="Pic 1">
+            <div class="carousel-caption hidden-xs">
+                <h2 class="h1">latest cars</h2>
+                <p class="disc">Welcome to CarRental comprehensive car hire search. We search thousands of destinations and compare thousands of car</p>
+            </div>
+        </div>
+
+        <div class="item">
+            <img src="/images/banner3.jpg" width="1920" height="600" alt="Pic 2">
+            <div class="carousel-caption hidden-xs">
+                <h2 class="h1">latest cars</h2>
+                <p class="disc">Welcome to CarRental comprehensive car hire search. We search thousands of destinations and compare thousands of car</p>
+            </div>
+        </div>
+
+        <div class="item">
+            <img src="/images/banner1.jpg" width="1920" height="600" alt="Pic 3">
+            <div class="carousel-caption hidden-xs">
+                <h2 class="h1">latest cars</h2>
+                <p class="disc">Welcome to CarRental comprehensive car hire search. We search thousands of destinations and compare thousands of car</p>
+            </div>
+        </div>
+
+        <div class="item">
+            <img src="/images/banner2.jpg" width="1920" height="600" alt="Pic 4">
+            <div class="carousel-caption hidden-xs">
+                <h2 class="h1">latest cars</h2>
+                <p class="disc">Welcome to CarRental comprehensive car hire search. We search thousands of destinations and compare thousands of car</p>
+            </div>
+        </div>
+
+    </div>
+
+    <a class="left carousel-control" href="#myslide" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left"></span>
+    </a>
+
+    <a class="right carousel-control" href="#myslide" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right"></span>
+    </a>
+
+</div>
+<!-- End Slider -->
+
+<section class="container text-center">
+
+    <h2 class="h1 text-primary">New Products</h2>
+
+    <div class="row">
+
+        @foreach (var item in Model)
+
+        {
+            foreach (var subitem in item.Item)
+                {
+                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                    <div class="thumbnail item-box">
+                        <span class="price-tag">$@subitem.Price</span>
+                        <div class="hovereffect">
+                            <img class="img-responsive" src="/images/@subitem.ItemImage" alt="">
+                            <div class="overlay">
+                                <h2>@Html.DisplayFor(modelItem => subitem.Title)</h2>
+                                @Html.ActionLink("Details", "Details", new { ItemId = subitem.Id }, new { @class = "info", @id = "details-btn" })
+                            </div>
+                        </div>
+                        <div class="date">22/5/2018</div>
+                    </div>
+                </div>
+
+
+            }
+
+
+        }
+    </div>
+</section>

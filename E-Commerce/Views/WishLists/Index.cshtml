@@ -1,0 +1,158 @@
+﻿@model IEnumerable<E_Commerce.Models.WishList>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!-- Cart view section -->
+<section id="cart-view">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="cart-view-area">
+                    <div class="cart-view-table aa-wishlist-table">
+                        <form action="">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th></th>
+                                            <th>Product</th>
+                                            <th>Price</th>
+                                            <th>Quantity</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Request.IsAuthenticated)
+                                        {
+                                            int i = 0;
+                                            foreach (var item in Model)
+                                            {
+
+                                                <tr>
+                                                    <td><a class="btn btn-xs btn-danger pull-right" href="@Url.Action("Remove", "WishLists", new { id=item.Id})"><span class="fa fa-times"></span></a></td>
+                                                    <td><a href="#"><img src="~/images/@item.Item.ItemImage" class="thumbnail" style="width:100px; height:100px" ></a></td>
+                                                    <td><a class="aa-cart-title" href="#">@item.Item.Title</a></td>
+                                                    <td id="itemPrice-@(i)">@item.Item.Price</td>
+                                                    <td><input id="itemQty-@(i)" name="Qty-@(i)" class="aa-cart-quantity" type="number" maxlength="2" min="1" max="99" value="1" /></td>
+                                                    <td><strong id="itemAmount-@(i)">@item.Item.Price</strong></td>
+                                                </tr>
+                                                i++;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <p>Please login to view wishlist</p>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </form>
+                        <!-- Cart Total view -->
+                        <div class="text-center" style="width:50%">
+                            <h4>Cart Totals</h4>
+                            <table class="table table-bordered text-center">
+                                <tbody>
+                                    <tr>
+                                        <th>Subtotal</th>
+                                        <td id="subTotal">00</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Discount</th>
+                                        <td id="discount">0</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Total Amount</th>
+                                        <td id="totalAmount">00</td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+
+                                    <tr>
+                                        <td colspan="3"><button type="submit" class="btn btn-primary" id="putorder">put order</button></td>
+                                    </tr>
+
+                                </tfoot>
+                            </table>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- / Cart view section -->
+@section Scripts
+{
+
+<script type="text/javascript">
+    $(function () {
+        $(':input[type="number"]').change(function () {
+
+            var index = $(this).attr('id').split("-")[1];
+
+            var itemPriceEle = document.getElementById('itemPrice-' + index + '');
+            var itemQty = $('#itemQty-' + index + '').val();
+            var amountEle = document.getElementById('itemAmount-' + index + '');
+
+            var amount = itemQty * parseInt(itemPriceEle.innerText);
+
+            amountEle.innerText = amount;
+
+            CartsTotal();
+
+
+
+        });
+        CartsTotal();
+    });
+    function CartsTotal()
+    {
+        var subAmount = 0;
+        var i = 0;
+        for (var i = 0; i < 5;) {
+            if (parseInt($('#itemAmount-' + i + '').text()) > 0) {
+                subAmount = subAmount + parseInt($('#itemAmount-' + i + '').text());
+                i++;
+            }
+            else {
+                break;
+            }
+        }
+        var subTotalEle = document.getElementById('subTotal');
+        subTotalEle.innerText = subAmount;
+
+        var TotalAmountEle = document.getElementById('totalAmount');
+        TotalAmountEle.innerText = subAmount;
+    }
+    function TotalAmount()
+    {
+        for (var i = 0; i < 5; i++) {
+            var itemPriceEle = document.getElementById('itemPrice-' + i + '');
+            var itemQty = $('#itemQty-' + i + '').val();
+            var amountEle = document.getElementById('itemAmount-' + i + '');
+
+            var amount = itemQty * parseInt(itemPriceEle.innerText);
+
+            amountEle.innerText = amount;
+        }
+    }
+
+    $('#putorder').on('click', function () {
+        var totalAmount = document.getElementById('totalAmount').innerHTML;
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("Order", "WishLists")',
+            data: {totalAmount: totalAmount},
+            success: function () {
+                alert("Successfully posted!");
+            }
+
+        });
+    });
+</script>
+}

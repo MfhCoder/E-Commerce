@@ -1,0 +1,40 @@
+﻿@model IEnumerable<E_Commerce.Models.Items>
+
+@{
+    ViewBag.Title = "GetItemsByUser";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container">
+
+    <h2>My Items</h2>
+
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+
+    @foreach (var item in Model)
+    {
+        <div class="col-sm-6 col-md-3">
+            <div class="thumbnail item-box">
+                <span class="price-tag">@item.Price</span>
+                <img class="img-responsive" src="~/images/@item.ItemImage" alt="" width="200" height="200" />
+                <div class="caption">
+
+                    <h3>@Html.DisplayFor(modelItem => item.Title)</h3>
+                    <h5>@Html.DisplayFor(modelItem => item.Description)</h5>
+                    @Html.ActionLink("Details", "Details", new { ItemId = item.Id }, new { @class = "btn btn-primary", @id = "details-btn" })
+
+
+                    <div class="date">22/5/2018</div>
+                </div>
+
+            </div>
+
+        </div>
+    }
+
+
+
+</div>
